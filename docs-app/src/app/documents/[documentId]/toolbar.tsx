@@ -1,14 +1,22 @@
 "use client";
 
-import { type Level } from "@tiptap/extension-heading";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { type Level } from "@tiptap/extension-heading";
 import { cn } from "@/lib/utils";
-import { useEditorStore } from "@/store/use-editor-store";
 import {
   BoldIcon,
   ChevronDownIcon,
   HighlighterIcon,
   ItalicIcon,
+  Link2Icon,
   ListTodoIcon,
   LucideIcon,
   MessageSquarePlusIcon,
@@ -19,16 +27,43 @@ import {
   UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useEditorStore } from "@/store/use-editor-store";
 import { fonts } from "@/lib/fontfamily";
-import { CirclePicker, ColorResult, SketchPicker } from "react-color";
+import { ColorResult, SketchPicker } from "react-color";
+import { useState } from "react";
 
+const LinkButton = () => {
+  const { editor } = useEditorStore();
+  const [value, setValue] = useState(editor?.getAttributes("link").href || "");
 
+  const onChange = (href: string) => {
+    editor
+      ?.chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: href })
+      .run();
+    setValue("");
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
+          <Link2Icon className="size-4" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-2.5 flex items-center gap-x-2">
+        <Input
+          placeholder="https://example.com"
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+        />
+        <Button onClick={() => onChange(value)}>Apply</Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 const HighLighterButton = () => {
   const { editor } = useEditorStore();
@@ -36,14 +71,14 @@ const HighLighterButton = () => {
   const value = editor?.getAttributes("highlight").color || "#FFFFFF";
 
   const onChange = (color: ColorResult) => {
-    editor?.chain().focus().setHighlight({color:color.hex}).run();
+    editor?.chain().focus().setHighlight({ color: color.hex }).run();
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
-           <HighlighterIcon className="size-4"/>
+          <HighlighterIcon className="size-4" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-0">
@@ -293,7 +328,7 @@ export const Toolbar = () => {
       <TextColorButton />
       <HighLighterButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      {/* {TODO:LINK} */}
+      <LinkButton />
       {/* {TODO:IMAGE} */}
       {/* {TODO:ALIGN} */}
       {/* {TODO:LINE HEIGHT} */}
