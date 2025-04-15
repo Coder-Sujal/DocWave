@@ -28,6 +28,8 @@ import {
 import { fonts } from "@/lib/fontfamily";
 import { CirclePicker, ColorResult, SketchPicker } from "react-color";
 
+
+
 const HighLighterButton = () => {
   const { editor } = useEditorStore();
 
