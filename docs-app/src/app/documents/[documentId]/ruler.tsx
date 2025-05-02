@@ -1,4 +1,3 @@
-import { rule } from "postcss";
 import { useState, useRef } from "react";
 import { FaCaretDown } from "react-icons/fa";
 
