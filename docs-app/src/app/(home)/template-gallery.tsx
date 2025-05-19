@@ -15,6 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 import { templates } from "@/constants/templates";
 import { api } from "../../../convex/_generated/api";
+import { toast } from "sonner";
 
 export const TemplateGallery = () => {
   const router = useRouter();
@@ -26,7 +27,9 @@ export const TemplateGallery = () => {
     create({ title, initialContent })
       .then((documentId) => {
         router.push(`/documents/${documentId}`);
+        toast.success("Document created successfully");
       })
+      .catch(() => toast.error("Something went wrong"))
       .finally(() => {
         setIsCreating(false);
       });
@@ -51,7 +54,7 @@ export const TemplateGallery = () => {
                 >
                   <button
                     disabled={isCreating}
-                    onClick={() => onTemplateClick(template.label,"")}
+                    onClick={() => onTemplateClick(template.label, "")}
                     style={{
                       backgroundImage: `url(${template.imageUrl})`,
                       backgroundSize: "cover",

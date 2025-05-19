@@ -37,6 +37,7 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { useEditorStore } from "@/store/use-editor-store";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 
 export const Navbar = () => {
   const { editor } = useEditorStore();
@@ -65,7 +66,7 @@ export const Navbar = () => {
       type: "application/json",
     });
 
-    onDownload(blob,`document.json`)
+    onDownload(blob, `document.json`);
   };
 
   const onSaveHTML = () => {
@@ -76,7 +77,7 @@ export const Navbar = () => {
       type: "text/html",
     });
 
-    onDownload(blob,`document.html`)
+    onDownload(blob, `document.html`);
   };
 
   const onSaveText = () => {
@@ -87,7 +88,7 @@ export const Navbar = () => {
       type: "text/plain",
     });
 
-    onDownload(blob,`document.txt`)
+    onDownload(blob, `document.txt`);
   };
 
   return (
@@ -261,6 +262,15 @@ export const Navbar = () => {
             </Menubar>
           </div>
         </div>
+      </div>
+      <div className="flex gap-3 items-center pl-6">
+        <OrganizationSwitcher
+          afterCreateOrganizationUrl="/"
+          afterLeaveOrganizationUrl="/"
+          afterSelectOrganizationUrl="/"
+          afterSelectPersonalUrl="/"
+        />
+        <UserButton />
       </div>
     </nav>
   );
