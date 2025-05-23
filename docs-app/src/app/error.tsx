@@ -31,7 +31,7 @@ const ErrorPage = ({
         <Button onClick={reset} className="font-medium px-6">
           Try again
         </Button>
-        <Button asChild className="font-medium" variant="ghost">
+        <Button asChild className="font-medium">
           <Link href="/">Go back</Link>
         </Button>
       </div>
