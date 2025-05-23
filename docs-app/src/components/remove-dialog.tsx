@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useRouter } from "next/navigation";
 
 interface RemoveDialogProps {
   documentId: Id<"documents">;
@@ -24,8 +25,9 @@ interface RemoveDialogProps {
 }
 
 export const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
+  const router = useRouter();
   const remove = useMutation(api.documents.removeById);
-  const [isRemoving,setIsRemoving] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
 
   return (
     <AlertDialog>
@@ -42,11 +44,24 @@ export const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
           <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction disabled={isRemoving} onClick={(e) => {
-            e.stopPropagation();
-            setIsRemoving(true);
-            remove({id : documentId}).then(() => toast.success("Document removed successfully")).catch(() => toast.error("Something went wrong")).finally(() =>setIsRemoving(false))
-          }}>Delete</AlertDialogAction>
+          <AlertDialogAction
+            disabled={isRemoving}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsRemoving(true);
+              remove({ id: documentId })
+                .then(() => {
+                  toast.success("Document removed successfully");
+                })
+                .catch(() => toast.error("Something went wrong"))
+                .finally(() => {
+                  setIsRemoving(false);
+                  router.push("/");
+                });
+            }}
+          >
+            Delete
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

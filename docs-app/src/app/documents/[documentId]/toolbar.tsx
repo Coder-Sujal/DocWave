@@ -19,7 +19,6 @@ import {
 import { type Level } from "@tiptap/extension-heading";
 import { cn } from "@/lib/utils";
 import {
-  AlignCenter,
   AlignCenterIcon,
   AlignJustifyIcon,
   AlignLeftIcon,
@@ -51,8 +50,6 @@ import { useEditorStore } from "@/store/use-editor-store";
 import { fonts } from "@/lib/fontfamily";
 import { ColorResult, SketchPicker } from "react-color";
 import { useState } from "react";
-import { isAbsolute } from "path";
-import TextAlign from "@tiptap/extension-text-align";
 
 
 

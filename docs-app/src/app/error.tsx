@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { AlertTriangleIcon } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const ErrorPage = ({
@@ -12,6 +12,7 @@ const ErrorPage = ({
   error: Error & { digest?: string };
   reset: () => void;
 }) => {
+  const router = useRouter();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center space-y-6">
       <div className="text-center space-y-4">
@@ -31,8 +32,12 @@ const ErrorPage = ({
         <Button onClick={reset} className="font-medium px-6">
           Try again
         </Button>
-        <Button asChild className="font-medium">
-          <Link href="/">Go back</Link>
+        <Button
+          variant="ghost"
+          className="font-medium"
+          onClick={() => router.push("/")}
+        >
+          Go back
         </Button>
       </div>
     </div>
